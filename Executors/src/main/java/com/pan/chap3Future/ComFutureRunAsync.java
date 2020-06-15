@@ -7,7 +7,7 @@ public class ComFutureRunAsync {
             = new ThreadPoolExecutor(8, 8, 1, TimeUnit.MINUTES, new LinkedBlockingQueue<>(10));
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
-        runAsyncWithBizExecutor();
+        supplyAsync();
     }
 
     public static void runAsync() throws ExecutionException, InterruptedException {
@@ -32,6 +32,25 @@ public class ComFutureRunAsync {
             }
             System.out.println("biz over");
         }, bizPoolExecutor);
+
+        System.out.println(future.get());
+    }
+
+    /**
+     * 带有返回值
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public static void supplyAsync() throws ExecutionException, InterruptedException {
+        CompletableFuture future = CompletableFuture.supplyAsync(() -> {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            return "hey man, period";
+        });
 
         System.out.println(future.get());
     }
