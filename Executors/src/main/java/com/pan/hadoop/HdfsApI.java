@@ -16,7 +16,7 @@ public class HdfsApI {
         //createFile("/input/someFile", s.getBytes());
 
         //uploadFile("E://students.json", "/input/");
-        readFromFile("/input/stu.json");
+        readFromFile("/input/user_list.txt");
     }
 
     public static void createFile(String dst, byte[] contents) throws IOException {

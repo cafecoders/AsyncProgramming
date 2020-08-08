@@ -1,0 +1,3 @@
+com\pan\hadoop\WordCount.class
+com\pan\hadoop\Rdd2HDFS$User.class
+com\pan\hadoop\Rdd2HDFS.class
