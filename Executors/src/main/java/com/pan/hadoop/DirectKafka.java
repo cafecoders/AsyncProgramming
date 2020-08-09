@@ -12,12 +12,12 @@ import scala.Tuple2;
 import java.util.*;
 
 public class DirectKafka {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         SparkConf conf = new SparkConf().setAppName("direct kafka").setMaster("local[2]");
         JavaStreamingContext jsc = new JavaStreamingContext(conf, Durations.seconds(5));
 
         Map<String, String> kafkaParam = new HashMap<>();
-        kafkaParam.put("metadata.broker.list", "spark1:9092,spark2:9092,spark3:9092");
+        kafkaParam.put("metadata.broker.list", "192.168.0.106:9092");
         Set<String> topics = new HashSet<>();
         topics.add("DirectKafkaSparkStreaming");
 
@@ -25,6 +25,12 @@ public class DirectKafka {
 
         JavaDStream<String> wordDStream = lineList.flatMap(tuple -> Arrays.asList(tuple._2.split(" ")).iterator());
 
-        wordDStream.foreachRDD(word -> System.out.println(word));
+        wordDStream.foreachRDD(word -> {
+            word.foreach(inWord -> System.out.println(inWord));
+        });
+
+        jsc.start();
+        jsc.awaitTermination();
+        jsc.close();
     }
 }
